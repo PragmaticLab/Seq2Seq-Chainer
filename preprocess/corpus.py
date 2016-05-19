@@ -22,12 +22,11 @@ class ConvCorpus():
 			parts = line.split('\t')
 			question = re.findall(r"[\w']+|[.,!?;]", parts[0])
 			answer = re.findall(r"[\w']+|[.,!?;]", parts[1])
-			question += ["EOS"]
-			answer += ["EOS"]
+			question += ["<eos>"]
+			answer += ["<eos>"]
 			question_tokens = [self.dictionary.token2id[token] if token in self.dictionary.token2id.keys() else self.unknown for token in question]
 			answer_tokens = [self.dictionary.token2id[token] if token in self.dictionary.token2id.keys() else self.unknown for token in answer]
-			yield np.array(question_tokens), np.array(answer_tokens)
-
+			yield np.array(question_tokens, dtype=np.int32), np.array(answer_tokens, dtype=np.int32)
 
 # corp = ConvCorpus()
 # myIter = corp.__iter__()

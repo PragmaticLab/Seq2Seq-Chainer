@@ -1,12 +1,9 @@
 import sys
+import chainer
+import numpy as np
 sys.path.insert(0, '../preprocess/')
 from corpus import ConvCorpus
-
-
-
-
-
-
+from net import SingleRNN
 
 
 corp = ConvCorpus()
@@ -18,4 +15,7 @@ myIter = corp.__iter__()
 # 	except Exception as e:
 # 		print e
 # 		break
-m = myIter.next()
+question, answer = myIter.next()
+
+net = SingleRNN(corp.dim)
+net.train(question, answer)

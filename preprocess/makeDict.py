@@ -15,8 +15,8 @@ for line in f:
 	parts = line.split('\t')
 	question = re.findall(r"[\w']+|[.,!?;]", parts[0])
 	answer = re.findall(r"[\w']+|[.,!?;]", parts[1])
-	question += ["EOS"]
-	answer += ["EOS"]
+	question += ["<eos>"]
+	answer += ["<eos>"]
 	questions += [question]
 	answers += [answer]
 
@@ -25,6 +25,6 @@ assert len(questions) == len(answers)
 dictionary = corpora.Dictionary(questions)
 dictionary.add_documents(answers)
 
-dictionary.filter_extremes(no_below=10)
+dictionary.filter_extremes(no_below=10, no_above=1)
 dictionary.save('../model/conv.dict')
-# dictionary.token2id['hello']
+print dictionary.token2id["<eos>"]
