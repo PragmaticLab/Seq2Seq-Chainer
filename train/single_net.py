@@ -6,28 +6,24 @@ import chainer.functions as F
 import chainer.links as L
 
 class SingleRNN(Chain):
-	def __init__(self, dim, EOS, unknown):
+	def __init__(self, dim, EOS):
 		super(SingleRNN, self).__init__(
-			embed=L.EmbedID(dim, 100),
-			l1=L.LSTM(100, 100),
-			l2=L.LSTM(100, 100),
-			out=L.Linear(100, dim),
+			embed=L.EmbedID(dim, 16),
+			l1=L.LSTM(16, 16),
+			out=L.Linear(16, dim),
 		)
 		for param in self.params():
 			param = param.data
 			param[:] = np.random.uniform(-0.08, 0.08, param.shape)
 		self.EOS = EOS
-		self.unknown = unknown
 
 	def reset_state(self):
 		self.l1.reset_state()
-		self.l2.reset_state()
 
 	def forward(self, cur_char):
 		x = self.embed(cur_char)
 		h1 = self.l1(x)
-		h2 = self.l2(h1)
-		y = self.out(h2)
+		y = self.out(h1)
 		return y
 
 	def train(self, x_np, y_np):
@@ -63,12 +59,13 @@ class SingleRNN(Chain):
 		count = 0
 		while True:
 			word_out = self.forward(word_in).data[0].astype(np.float64)
-			word_out[word_out < 0] = 0
-			word_out /= np.sum(word_out)
-			word_out = np.random.choice(range(len(word_out)), p=word_out)
+			word_out = range(len(word_out))[np.argmax(word_out)]
 			sentence += [word_out]
+			# if done then exit
 			if word_out == self.EOS:
 				break
+			# set up next input
+			word_in = chainer.Variable(np.array([word_out], dtype=np.int32))
 			count += 1
 			if count > 100:
 				break

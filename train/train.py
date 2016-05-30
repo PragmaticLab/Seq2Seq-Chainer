@@ -7,11 +7,10 @@ import sys
 import numpy as np
 sys.path.insert(0, '../preprocess/')
 from corpus import ConvCorpus
-from net import SingleRNN
-
+from single_net import SingleRNN
 
 corp = ConvCorpus()
-net = SingleRNN(corp.dim, corp.EOS, corp.unknown)
+net = SingleRNN(corp.dim, corp.EOS)
 optimizer = optimizers.SGD()
 optimizer.setup(net)
 
