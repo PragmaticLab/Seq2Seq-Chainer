@@ -76,6 +76,7 @@ accum_loss = Variable(np.zeros((), dtype=np.float32))
 for i in xrange(jump * n_epochs):
 	x_batch = np.array([train_data[(jump * j + i) % whole_len] for j in xrange(batch_size)])
 	y_batch = np.array([train_data[(jump * j + i + 1) % whole_len] for j in xrange(batch_size)])
+	print x_batch
 	loss = net.trainOneStep(x_batch, y_batch)
 	accum_loss += loss
 	if (i + 1) % bprop_len == 0:
