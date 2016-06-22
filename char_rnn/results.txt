@@ -1,0 +1,31 @@
+>>> print corpus.decode(net.predict([corpus.encode("Romeo")], num=100)[0])
+:
+And then I can tell thee to the prince the common
+To such a sea and the gates of Gloucester,
+And t
+>>> print corpus.decode(net.predict([corpus.encode("Romeo:")], num=100)[0])
+
+And then I can tell thee to the prince the common
+To such a sea and the gates of Gloucester,
+And th
+>>> print corpus.decode(net.predict([corpus.encode("Romeo,")], num=100)[0])
+
+What is the contrary in the consent of think,
+The sea and the fire of my son and the state,
+And the
+
+--------------------------------------------------------------------
+
+>>> print corpus.decode(net.predict([corpus.encode("I")], num=100)[0])
+ANCCIZU:
+And then the greater the state of Gloucester,
+And then the greater to the prince the state,
+>>> print corpus.decode(net.predict([corpus.encode("I ")], num=100)[0])
+Gromen, the gates of Gloucester,
+And then the greater to the prince the common here,
+And then the gr
+
+--------------------------------------------------------------------
+
+
+
